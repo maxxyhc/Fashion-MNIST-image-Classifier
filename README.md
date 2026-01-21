@@ -1,7 +1,7 @@
 # Fashion-MNIST Image Classification (MLP Baseline vs CNN)
 
 ## Overview
-This project trains deep learning models to classify images from the **Fashion-MNIST** dataset (10 clothing categories, 28×28 grayscale).  
+This project trains deep learning models to classify images from the **Fashion-MNIST** dataset with 10 clothing categories and 28×28 grayscale.  
 I first built a simple **MLP baseline** to validate the data pipeline and training loop, then upgraded to a **CNN** to leverage spatial feature learning.
 
 ## Dataset
@@ -15,7 +15,7 @@ I first built a simple **MLP baseline** to validate the data pipeline and traini
 - Linear(784→128) + ReLU
 - Linear(128→10)
 
-**Test Accuracy (5 epochs): ~87.14%**
+**Test Accuracy (10 epochs): ~87.14%**
 
 ### 2) CNN
 - Conv(1→32, 3×3) + ReLU + MaxPool
@@ -26,7 +26,7 @@ I first built a simple **MLP baseline** to validate the data pipeline and traini
 
 ## Training Setup
 - Loss: CrossEntropyLoss  
-- Optimizer: Adam (lr=1e-3)  
+- Optimizer: Adam with learning rate set to 0.001
 - Batch size: train=128, test=256  
 - Normalization: mean=0.5, std=0.5
 
@@ -43,13 +43,9 @@ Upgrading from an MLP to a CNN improved accuracy by **~4.7% absolute**, showing 
 Most mistakes occur between visually similar upper-body categories, especially:
 - **Shirt ↔ T-shirt/top**
 - **Shirt ↔ Coat / Pullover**
-These classes share similar shapes in low-resolution grayscale images, making them inherently ambiguous.
+Due to the limited resolution and grayscale images, these visually similar categories are difficult to distinguish even for a CNN.
 
 ### High-Confidence Mistakes
 I also inspected the **most confident incorrect predictions** (softmax confidence ≈ 0.99–1.00).  
-Many errors are between visually similar items (e.g., Sneaker vs Ankle boot), indicating the model relies heavily on coarse shape cues under limited resolution.
+Many errors occur between visually similar items (e.g., Sneaker vs Ankle boot), which suggests a heavy reliance on coarse shape cues under limited resolution.
 
-## How to Run
-1. Install dependencies:
-```bash
-pip install torch torchvision matplotlib scikit-learn
